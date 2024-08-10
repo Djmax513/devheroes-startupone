@@ -1,51 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, Stack } from 'expo-router';
-import { StyleSheet, TextInput, Pressable, Button } from 'react-native';
-// import { auth } from './firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import auth from 'firebase/auth'
+import { StyleSheet, TextInput, Pressable } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
+import { addUser } from '@/database/users'
+
 export default function LoginScreen() {
-  const [email, setEmail] = useState<string>()
-  const [password, setPassword] = useState<string>()
+  const [email, setEmail] = useState<any>()
+  const [password, setPassword] = useState<any>()
 
-  console.log('auth', auth)
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    // const users = await firestore().collection('user').get();
     console.log('login enviado', email, password)
-
+    const userData = await addUser({
+      document: 1029821,
+      firstName: 'gabriel',
+      lastName: 'teste',
+      email: email,
+      dateBirth: '01/12/2012',
+      isGoogle: false,
+      profilePhoto: ''
+    })
+    console.log('@userData', userData)
   }
-
-  // const handleSignUp = () => {
-  //     createUserWithEmailAndPassword(auth, email, password)
-  //         .then(userCredential => {
-  //             console.log('User signed up:', userCredential.user)
-  //         })
-  //         .catch(error => {
-  //             console.error('Error signing up:', error)
-  //         });
-  // };
-
-  // const handleSignIn = () => {
-  //     signInWithEmailAndPassword(auth, email, password)
-  //         .then(userCredential => {
-  //             console.log('User signed in:', userCredential.user);
-  //         })
-  //         .catch(error => {
-  //             console.error('Error signing in:', error);
-  //         });
-  // };
-
-  // const handleSignOut = () => {
-  //     signOut(auth).then(() => {
-  //         console.log('User signed out');
-  //     }).catch(error => {
-  //         console.error('Error signing out:', error);
-  //     });
-  // };
 
   return (
     <>
@@ -67,15 +46,6 @@ export default function LoginScreen() {
           <Link href="/" style={styles.link}>
             <ThemedText type="link">Go to home screen!</ThemedText>
           </Link>
-
-          {/*  */}
-
-          <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
-          <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
-
-          {/* <Button title="Sign Up" onPress={handleSignUp} />
-          <Button title="Sign In" onPress={handleSignIn} />
-          <Button title="Sign Out" onPress={handleSignOut} /> */}
       </ThemedView>
     </>
   );

@@ -6,9 +6,13 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 import { PlantList } from '@/components/PlantList';
-import { Link } from 'expo-router';
+import { Link, Redirect } from 'expo-router';
 
 export default function HomeScreen() {
+  // if (true) {
+  //   return <Redirect href='/login' />
+  // }
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -18,9 +22,10 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
-        <Link href='/login'>
-          <ThemedText>ir para o login</ThemedText>
-        </Link>
+      <Link href='/login'>
+        <ThemedText>ir para o login</ThemedText>
+      </Link>
+
       <ThemedView style={[styles.titleContainer, { marginBottom: 42 }]}>
         <ThemedText type="title">Bem vindo!</ThemedText>
         <HelloWave />
