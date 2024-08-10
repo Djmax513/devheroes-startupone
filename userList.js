@@ -5,8 +5,8 @@ import { db } from './firebaseConfig';  // Importa a configuração do Firebase
 import { collection, getDocs } from 'firebase/firestore';
  
 const UserList = () => {
-  const [usuarios, setUsuarios] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [usuarios, setUsuarios] = useState([])
+  const [loading, setLoading] = useState(true)
  
   useEffect(() => {
     const fetchUsers = async () => {
