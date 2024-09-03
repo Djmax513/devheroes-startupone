@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Platform, Button, Pressable } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -9,10 +9,6 @@ import { PlantList } from '@/components/PlantList';
 import { Link, Redirect } from 'expo-router';
 
 export default function HomeScreen() {
-  // if (true) {
-  //   return <Redirect href='/login' />
-  // }
-
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -22,14 +18,14 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
-      <Link href='/login'>
-        <ThemedText>ir para o login</ThemedText>
-      </Link>
-
-      <ThemedView style={[styles.titleContainer, { marginBottom: 42 }]}>
+      <ThemedView style={[styles.titleContainer, { marginBottom: 22 }]}>
         <ThemedText type="title">Bem vindo!</ThemedText>
         <HelloWave />
       </ThemedView>
+
+      <Link href={'/cad_plant'} style={styles.addPlantButton}>
+        <ThemedText>Cadastrar planta +</ThemedText>
+      </Link>
 
       {/* lista de plantas */}
       <ThemedView style={styles.stepContainer}>
@@ -44,6 +40,10 @@ export default function HomeScreen() {
       {/* lista de dispositivos */}
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Sensores</ThemedText>
+      </ThemedView>
+
+      <ThemedView>
+        <PlantList />
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -67,4 +67,13 @@ const styles = StyleSheet.create({
     left: 0,
     position: 'absolute',
   },
+  addPlantButton: {
+    width: 230,
+    marginHorizontal: 'auto',
+    color: '#eee',
+    textAlign: 'center',
+    backgroundColor: '#252829',
+    borderRadius: 7,
+    padding: 12,
+  }
 });

@@ -5,40 +5,31 @@ import { StyleSheet, TextInput, Pressable } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-import { addUser } from '@/database/users'
+import { signUpNewUser } from '@/database/firestore'
+import { addPlant } from '@/database/plant'
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<any>()
   const [password, setPassword] = useState<any>()
 
   const handleSubmit = async () => {
-    // const users = await firestore().collection('user').get();
-    console.log('login enviado', email, password)
-    const userData = await addUser({
-      document: 1029821,
-      firstName: 'gabriel',
-      lastName: 'teste',
-      email: email,
-      dateBirth: '01/12/2012',
-      isGoogle: false,
-      profilePhoto: ''
-    })
-    console.log('@userData', userData)
+    const userData = await signUpNewUser(email, password)
+    console.log(userData)
   }
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
+      <Stack.Screen options={{ title: 'Entre no aplicativo' }} />
       <ThemedView style={styles.container}>
           <TextInput
             style={styles.inputText}
-              onChangeText={setEmail}
-              value={email}
+            onChangeText={setEmail}
+            value={email}
           />
           <TextInput
             style={styles.inputText}
-              onChangeText={setPassword}
-              value={password}
+            onChangeText={setPassword}
+            value={password}
           />
           <Pressable onPress={handleSubmit} style={styles.submitButton}>
             <ThemedText style={{textAlign: 'center'}}>Enviar</ThemedText>
