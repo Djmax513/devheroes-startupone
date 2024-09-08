@@ -34,7 +34,8 @@
         {
           "photosPermission": "O app acessa as suas fotos para customizar o seu inventários de plantas."
         }
-      ]
+      ],
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

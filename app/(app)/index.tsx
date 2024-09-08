@@ -1,14 +1,30 @@
+import React, { useState, useEffect } from 'react'
 import { Image, StyleSheet, Platform, Button, Pressable } from 'react-native';
+import { Link } from 'expo-router';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-
 import { PlantList } from '@/components/PlantList';
-import { Link, Redirect } from 'expo-router';
+
+import { getPlants } from '@/database/firestore'
 
 export default function HomeScreen() {
+  const [plants, setPlants] = useState<any>()
+
+  const getPlantsData = async () => {
+    const result = await getPlants()
+    setPlants(result)
+  }
+
+  useEffect(() => {
+    getPlantsData()
+  }, [])
+  useEffect(() => {
+    console.log(plants)
+  }, [plants])
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -19,7 +35,7 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={[styles.titleContainer, { marginBottom: 22 }]}>
-        <ThemedText type="title">Bem vindo!</ThemedText>
+        <ThemedText type="title">Bem vindos!</ThemedText>
         <HelloWave />
       </ThemedView>
 

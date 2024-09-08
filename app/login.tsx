@@ -1,25 +1,31 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Stack } from 'expo-router';
+import { router } from 'expo-router'
+import { Link, Redirect, Stack } from 'expo-router';
 import { StyleSheet, TextInput, Pressable } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
+import { useSession } from '@/ctx';
+
 import { signUpNewUser } from '@/database/firestore'
-import { addPlant } from '@/database/plant'
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState<any>()
-  const [password, setPassword] = useState<any>()
+  const [email, setEmail] = useState<any>('gabrielmacedo95191@gmail.com')
+  const [password, setPassword] = useState<any>('Minhasenha123')
+  const { signIn } = useSession()
+
+  const createUser = (user: any) => {
+    signIn(user)
+    router.replace('/');
+  }
 
   const handleSubmit = async () => {
-    const userData = await signUpNewUser(email, password)
-    console.log(userData)
+    await signUpNewUser(email, password, createUser)
   }
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Entre no aplicativo' }} />
       <ThemedView style={styles.container}>
           <TextInput
             style={styles.inputText}

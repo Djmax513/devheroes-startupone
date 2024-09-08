@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, setPersistence, inMemoryPersistence } from 'firebase/auth'
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
-// import { getAnalytics } from "firebase/analytics";
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
+
+import { useSession } from '../ctx'
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDmxpaUdpMpwfhwP9h0BFZ_Uw0Xx0iAu3M",
@@ -15,13 +15,6 @@ export const firebaseConfig = {
   measurementId: "G-T3535DH5W0"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
-// const analytics = getAnalytics(app);
-
-export const db = getFirestore()
-const auth = getAuth(app)
-
 export interface Plant {
   plantName?: string;
   plantDescription: string;
@@ -29,20 +22,33 @@ export interface Plant {
   plantImageSrc?: string;
 }
 
-export function signUpNewUser(email: string, pwd: string) {
-  createUserWithEmailAndPassword(auth, email, pwd).then(res=> console.log(res))
+const { session } = useSession();
+
+// Initialize Firebase
+export const app = initializeApp(firebaseConfig)
+export const db = getFirestore()
+
+export const auth = getAuth(app)
+
+export async function signUpNewUser(email: string, pwd: string, passUser: any) {
+  try {
+    await signInWithEmailAndPassword(auth, email, pwd)
+    .then(res => passUser(res.user.uid))
+    return true
+  } catch (err) {
+    return 'Falha no envio'
+  }
 }
 
-export function authenticateUSer(email: string, pwd: string) {
-  setPersistence(auth, inMemoryPersistence).then(() => {
-    signInWithEmailAndPassword(auth, email, pwd)
-      .then(res=> console.log(res))
-      .catch(err => console.error('Failed to create User', err))
-  })
-  .catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log('Erro ao salvar dados', errorCode, errorMessage)
-  })
+export async function getPlants() {
+  const docRef = doc(db, "plants", session);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    return docSnap.data()
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log("No such document!");
+    return null
+  }
 }

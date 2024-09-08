@@ -11,5 +11,5 @@ export interface Plant {
 export async function addPlant(data: Plant) {
   console.log('@addPlant data', data)
 
-  await setDoc(doc(db, 'gabrielmacedo', 'plantas'), data)
+  // await setDoc(doc(db, 'gabrielmacedo', 'plantas'), data)
 }
