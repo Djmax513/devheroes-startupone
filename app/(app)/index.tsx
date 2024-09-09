@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Image, StyleSheet, Platform, Button, Pressable } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -25,6 +25,8 @@ export default function HomeScreen() {
     console.log(plants)
   }, [plants])
 
+  router.replace('/signup');
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -39,10 +41,6 @@ export default function HomeScreen() {
         <HelloWave />
       </ThemedView>
 
-      <Link href={'/cad_plant'} style={styles.addPlantButton}>
-        <ThemedText>Cadastrar planta +</ThemedText>
-      </Link>
-
       {/* lista de plantas */}
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Plantas</ThemedText>
@@ -52,6 +50,9 @@ export default function HomeScreen() {
         <PlantList />
       </ThemedView>
 
+      <Link href={'/cad_plant'} style={styles.addPlantButton}>
+        <ThemedText>Adicionar +</ThemedText>
+      </Link>
 
       {/* lista de dispositivos */}
       <ThemedView style={styles.stepContainer}>

@@ -39,7 +39,9 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack>
             <Stack.Screen name="index" />
+            <Stack.Screen name="signup" />
             <Stack.Screen name="cad_plant" options={{ title: 'Cadastro de plantas' }} />
+            <Stack.Screen name="plant_information" options={{ title: 'Informações da planta' }} />
         </Stack>
     </ThemeProvider>
   );

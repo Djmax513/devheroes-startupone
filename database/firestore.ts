@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
 
 import { useSession } from '../ctx'
@@ -22,7 +22,7 @@ export interface Plant {
   plantImageSrc?: string;
 }
 
-const { session } = useSession();
+const { session: userId } = useSession();
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig)
@@ -30,7 +30,7 @@ export const db = getFirestore()
 
 export const auth = getAuth(app)
 
-export async function signUpNewUser(email: string, pwd: string, passUser: any) {
+export async function signInNewUser(email: string, pwd: string, passUser: any) {
   try {
     await signInWithEmailAndPassword(auth, email, pwd)
     .then(res => passUser(res.user.uid))
@@ -41,8 +41,10 @@ export async function signUpNewUser(email: string, pwd: string, passUser: any) {
 }
 
 export async function getPlants() {
-  const docRef = doc(db, "plants", session);
+  // busca as infos gerais das plantas
+  const docRef = doc(db, "plants", userId);
   const docSnap = await getDoc(docRef);
+  
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
     return docSnap.data()
@@ -51,4 +53,33 @@ export async function getPlants() {
     console.log("No such document!");
     return null
   }
+}
+
+
+
+
+export async function signUp(email: string, password: string, data: any) {
+  // cria usuário no firebase
+  createUserWithEmailAndPassword(auth, email, password)
+
+  // se der sucesso na criação do usuário, atualiza os dados do usuário no firestore
+  updateUserData(data)
+}
+async function updateUserData(dados: any) {
+  // atualizar informações do usuário users/(userId)
+}
+export async function getUserInfo() {
+  // buscar informações do usuário em users/(userId)
+}
+export async function createNewPlant() {
+  // adiciona um novo documento de plantas no caminho plants/(userId)/plant/idDaPlanta
+}
+export async function getUniquePlant(plantId: number) {
+  // busca uma planta no caminho plants/(userId)/plant/idDaPlanta
+}
+export async function updatePlant(plantId: number) {
+  // atualiza as infos de uma planta no caminho plants/(userId)/plant/idDaPlanta
+}
+export async function deletePlant(plantId: number) {
+  // remove uma planta no caminho plants/(userId)/plant/idDaPlanta
 }

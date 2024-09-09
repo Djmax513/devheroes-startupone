@@ -8,7 +8,7 @@ import { ThemedView } from '@/components/ThemedView';
 
 import { useSession } from '@/ctx';
 
-import { signUpNewUser } from '@/database/firestore'
+import { signInNewUser } from '@/database/firestore'
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<any>('gabrielmacedo95191@gmail.com')
@@ -21,7 +21,7 @@ export default function LoginScreen() {
   }
 
   const handleSubmit = async () => {
-    await signUpNewUser(email, password, createUser)
+    await signInNewUser(email, password, createUser)
   }
 
   return (
